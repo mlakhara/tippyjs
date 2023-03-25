@@ -90,7 +90,7 @@ export default function createTippy(
   let isBeingDestroyed = false;
   let didHideDueToDocumentMouseDown = false;
   let popperUpdates = 0;
-  let lastTriggerEvent: Event;
+  let lastTriggerEventType: string | null = null;
   let currentMountCallback: () => void;
   let currentTransitionEndListener: (event: TransitionEvent) => void;
   let listeners: Listener[] = [];
@@ -207,7 +207,7 @@ export default function createTippy(
     if (
       (instance.state.isMounted && !instance.state.isVisible) ||
       currentInput.isTouch ||
-      (lastTriggerEvent ? lastTriggerEvent.type === 'focus' : true)
+      (lastTriggerEventType ? lastTriggerEventType === 'focus' : true)
     ) {
       return 0;
     }
@@ -437,7 +437,7 @@ export default function createTippy(
       return;
     }
 
-    lastTriggerEvent = event;
+    lastTriggerEventType = event ? event.type : null;
     currentTarget = event.currentTarget as Element;
 
     handleAriaExpandedAttribute();
